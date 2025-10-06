@@ -1,0 +1,29 @@
+fun main() {
+    print("Введите слово: ")
+    val word = readLine()!!.lowercase()
+
+    val vowels = setOf('а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я')
+    val syllables = mutableListOf<String>()
+    var current = ""
+
+    for (i in word.indices) {
+        current += word[i]
+
+        if (word[i] in vowels) {
+            // Если следующая буква — согласная, значит слог продолжается
+            if (i + 1 < word.length && word[i + 1] !in vowels) {
+                continue
+            }
+
+            syllables.add(current)
+            current = ""
+        }
+    }
+
+    // Если остались буквы — добавляем как последний слог
+    if (current.isNotEmpty()) {
+        syllables.add(current)
+    }
+
+    println(syllables.joinToString("-"))
+}

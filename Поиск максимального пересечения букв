@@ -1,0 +1,44 @@
+fun main() {
+    print("Введите слова через пробел: ")
+    val words = readLine()!!.split(" ").filter { it.isNotEmpty() }
+
+    var maxCount = 0
+    var bestPair: Pair<String, String>? = null
+    var commonLetters = listOf<Char>()
+
+    for (i in words.indices) {
+        for (j in i + 1 until words.size) {
+            val (count, letters) = getCommonLetters(words[i], words[j])
+            if (count > maxCount) {
+                maxCount = count
+                bestPair = Pair(words[i], words[j])
+                commonLetters = letters
+            }
+        }
+    }
+
+    if (bestPair != null) {
+        println("Пара: ${bestPair.first}, ${bestPair.second}")
+        println("Количество общих букв: $maxCount")
+        println("Общие буквы: ${commonLetters.joinToString(", ")}")
+    } else {
+        println("Нет общих букв.")
+    }
+}
+
+fun getCommonLetters(word1: String, word2: String): Pair<Int, List<Char>> {
+    val freq1 = word1.groupingBy { it }.eachCount().toMutableMap()
+    val freq2 = word2.groupingBy { it }.eachCount().toMutableMap()
+
+    val common = mutableListOf<Char>()
+
+    for ((char, count1) in freq1) {
+        val count2 = freq2[char] ?: 0
+        val minCount = minOf(count1, count2)
+        repeat(minCount) {
+            common.add(char)
+        }
+    }
+
+    return Pair(common.size, common)
+}

@@ -1,0 +1,16 @@
+fun main() {
+    print("Введите слово: ")
+    val word = readLine() ?: return
+
+    val pattern = mutableListOf<Int>()
+    val seen = mutableMapOf<Char, Int>()
+
+    for (char in word) {
+        if (!seen.containsKey(char)) {
+            seen[char] = seen.size
+        }
+        pattern.add(seen[char]!!)
+    }
+
+    println(pattern.joinToString(""))
+}

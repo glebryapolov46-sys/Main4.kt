@@ -1,0 +1,20 @@
+fun main() {
+    print("Введите слова через пробел: ")
+    val words = readLine()!!.split(" ").filter { it.isNotEmpty() }
+
+    println("Пары слов, образующие палиндром:")
+    for (i in words.indices) {
+        for (j in words.indices) {
+            if (i != j) {
+                val combined = words[i] + words[j]
+                if (isPalindrome(combined)) {
+                    println("${words[i]} + ${words[j]} = $combined")
+                }
+            }
+        }
+    }
+}
+
+fun isPalindrome(s: String): Boolean {
+    return s == s.reversed()
+}

@@ -1,0 +1,32 @@
+fun main() {
+    print("Введите слова через пробел: ")
+    val words = readLine()!!.split(" ").filter { it.isNotEmpty() }
+
+    val chains = mutableListOf<List<String>>()
+
+    for (start in words) {
+        val chain = mutableListOf<String>()
+        var current = start
+        val used = mutableSetOf<String>()
+
+        while (current !in used) {
+            chain.add(current)
+            used.add(current)
+
+            val lastChar = current.last().lowercase()
+            val next = words.find { it !in used && it.first().lowercase() == lastChar }
+
+            if (next != null) {
+                current = next
+            } else {
+                break
+            }
+        }
+
+        chains.add(chain.toList())
+    }
+
+    for (chain in chains.distinct()) {
+        println(chain)
+    }
+}
